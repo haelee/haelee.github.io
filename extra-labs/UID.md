@@ -1,5 +1,5 @@
 # Checking the UID of a User
-The objective of problem 001 is to find the UID of a user using the `id` command. In Unix-like systems, the privileges of a user is determined based on the UID stored in the `/etc/passwd` file.
+The objective of this lab is to find the UID of a user using the `id` command. In Unix-like systems, the privileges of a user is determined based on the UID stored in the `/etc/passwd` file.
 
 ## Extra Lab #1: Users with the Same UID
 Then, what if there're two or more users who have the same UID in `/etc/passwd`? Let’s check this!
@@ -29,19 +29,21 @@ $ cat ~ntu2023/ntu
 cat: /home/ntu2023/ntu: Permission denied
 ```
 
-5. Switch back to `root` then open `/etc/passwd` with text editor `vi` (or `nano`). 
+5. Switch back to `root` then open `/etc/passwd` with text editor `vi` (of course, `nano` is OK for this). 
 ```
 $ exit
 # vi /etc/passwd
 ```
 
 6. Change the UID (and GID optionally) of `cju2023` to that of `ntu2023`. Save the file then quit the editor.
+> WARNING! Be careful while editing `/etc/passwd`. If you face a serious problem, simply return your VM and request a new VM.
 ```
 ntu2023:x:515:515::/home/ntu2023:/bin/bash
 cju2023:x:515:515::/home/ntu2023:/bin/bash
 ```
 
-7. Switch to `cju2023` then try to read the file again. You’re now able to access the file! This is because the UID of `cju2023` stored in `/etc/passwd` is equal to that of `ntu2023`. That is, you’re now virtually `ntu2023` although you’ve logged in with `cju2023`. You would face an error while switching the user. But it's OK. The error is due to other users, except `cju2023` and `root`, are not allowed to execute the `/home/cju2023/.bashrc` file (You can check the file permissions with `ls -l /home/cju2023/.bashrc`).
+7. Switch to `cju2023` then try to read the file again. You’re now able to access the file! This is because the UID of `cju2023` stored in `/etc/passwd` is equal to that of `ntu2023`. That is, you’re now virtually `ntu2023` although you’ve logged in with `cju2023`. 
+> Note: You would face an error while switching the user. But it's OK. The error is due to other users, except `cju2023` and `root`, are not allowed to execute the `/home/cju2023/.bashrc` file (You can check the file permissions with `ls -l /home/cju2023/.bashrc`).
 ```
 # su cju2023
 bash: /home/cju2023/.bashrc: Permission denied
@@ -61,7 +63,7 @@ $ cat /etc/shadow
 cat: /etc/shadow: Permission denied
 ```
 
-2. Switch back to `root` then open `/etc/passwd` with text editor `vi` (or `nano`). 
+2. Switch back to `root` then open `/etc/passwd` with text editor `vi`. 
 ```
 $ exit
 # vi /etc/passwd
