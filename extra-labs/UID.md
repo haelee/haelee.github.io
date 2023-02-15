@@ -36,14 +36,14 @@ $ exit
 ```
 
 6. Change the UID (and GID optionally) of `cju2023` to that of `ntu2023`. Save the file then quit the editor.
-> WARNING! Be careful while editing `/etc/passwd`. If you face a serious problem, simply return your VM and request a new VM.
+> WARNING! Be careful while editing `/etc/passwd`. A typo may make the system out of control. If so, simply return your VM and connect to a new VM. The VM you used would go back to the inital state.
 ```
 ntu2023:x:515:515::/home/ntu2023:/bin/bash
 cju2023:x:515:515::/home/ntu2023:/bin/bash
 ```
 
 7. Switch to `cju2023` then try to read the file again. You’re now able to access the file! This is because the UID of `cju2023` stored in `/etc/passwd` is equal to that of `ntu2023`. That is, you’re now virtually `ntu2023` although you’ve logged in with `cju2023`. 
-> Note: You would face an error while switching the user. But it's OK. The error is due to other users, except `cju2023` and `root`, are not allowed to execute the `/home/cju2023/.bashrc` file (You can check the file permissions with `ls -l /home/cju2023/.bashrc`).
+> Note: You would face an error while switching the user. But it's OK. The error is due to other users, except `cju2023` and `root`, are not allowed to execute the `/home/cju2023/.bashrc` file. You can check the file permissions with `ls -l /home/cju2023/.bashrc`.
 ```
 # su cju2023
 bash: /home/cju2023/.bashrc: Permission denied
