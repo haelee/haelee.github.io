@@ -36,7 +36,7 @@ $ exit
 ```
 
 6. Change the UID (and GID optionally) of `cju2023` to that of `ntu2023`. Save the file then quit the editor.
-> WARNING! Be careful while editing `/etc/passwd`. A typo may make the system out of control. If so, simply return your VM and connect to a new VM. The VM you used would go back to the inital state.
+> WARNING! Be careful while editing `/etc/passwd`. A typo may make the system out of control. If so, simply return your virtual machine (VM) and connect to a new VM. The VM you used would go back to the inital state.
 ```
 ntu2023:x:515:515::/home/ntu2023:/bin/bash
 cju2023:x:515:515::/home/ntu2023:/bin/bash
