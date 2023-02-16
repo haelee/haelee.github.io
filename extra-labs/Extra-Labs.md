@@ -4,7 +4,7 @@ by Hae Young Lee
 ## 1. [Introduction](Introduction.md)
 ## 2. Vulnerabilities
 ### 1. [UID](UID.md)
-### 4. [UMASK and PATH](PATH.md)
+### 4. [PATH](PATH.md)
 ### 14. SMTP
 ### 20. SetUID and SetGID
 ### 22. Administrator

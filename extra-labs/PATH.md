@@ -1,4 +1,4 @@
-# UMASK and PATH
+# PATH
 The objective of this lab is was configure UMASK and PATH for security.
 
 ## Extra Lab #1: The Current Directory in PATH

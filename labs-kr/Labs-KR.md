@@ -4,7 +4,7 @@ by Hae Young Lee
 ## 1. 소개
 ## 2. Vulnerabilities
 ### 1. [UID (User Identifier) 확인](UID.md)
-### 2. [hosts 파일을 이용한 접긑 통제](TCPWrapper.md)
+### 2. [hosts 파일을 이용한 접근 통제](TCPWrapper.md)
 ### 9. [NFS 서비스 제한](NFS.md)
 ### 11. [텔넷 서비스 제한](Telnet.md)
 ### 15. [DNS Zone Transfer 제한](DNS.md)

@@ -1,0 +1,62 @@
+## 과제 2 : hosts 파일을 이용한 IP 접근 제어
+
+### 배경
+TCP 래퍼는 호스트 기반 네트워킹 ACL 시스템입니다. 클라이언트가 서비스에 연결할 수 있는지 확인하기 위해 TCP 래퍼는 /etc/hosts.allow 및 /etc/hosts.deny라는 두 파일을 참조합니다. 이러한 파일은 네트워크 트래픽의 기본 트래픽 필터링을 제공합니다. 클라이언트가 원격 시스템의 네트워크 서비스에 연결을 시도할 때 이러한 파일은 클라이언트 액세스가 허용되는지 또는 거부되는지를 결정하는 데 사용됩니다.
+/etc/hosts.allow의 액세스 규칙이 먼저 적용되기 때문에 /etc/hosts.deny에 지정된 규칙보다 우선합니다. 따라서 /etc/hosts.allow에서 서비스에 대한 액세스가 허용되는 경우 /etc/hosts.deny에서 동일한 서비스에 대한 액세스를 거부하는 규칙은 무시됩니다.
+각 파일의 규칙은 위에서 아래로 읽히며 주어진 서비스에 대해 처음으로 일치하는 규칙만 적용됩니다. 규칙의 순서는 매우 중요합니다. 두 파일에서 서비스에 대한 규칙을 찾을 수 없거나 두 파일 모두 존재하지 않으면 서비스에 대한 액세스 권한이 부여됩니다. 두 파일의 구문은 다음과 같습니다.
+<services>:<clients>[:<option1>:<option2>:…]
+-	서비스는 현재 규칙이 적용되어야 하는 서비스 목록입니다.
+-	 클라이언트는 규칙의 영향을 받는 호스트 이름 또는 IP 주소 목록을 나타냅니다.
+마지막으로 선택적 작업 목록은 주어진 규칙이 트리거될 때 발생해야 하는 작업을 나타냅니다.
+
+### 목표
+Linux 호스트 파일을 사용하여 IP 액세스 제어 정책을 설정합니다.
+/etc/hosts.allow 및 /etc/hosts.deny를 사용하여 서버 데몬에 대한 클라이언트 액세스를 선택적으로 허용하거나 거부하는 규칙을 정의합니다. 파일에 입력된 서비스와 주소에 따라 해당 서비스를 허용 또는 차단하는 기능이 동작합니다
+
+### 설정 방법
+각 고유 번호는 컴퓨터 사용자에게 부여됩니다. 그 숫자를 바탕으로 오너 및 각종 프로세스를 쉽고 편리하게 처리합니다.
+
+### 잘못된 보안 설정으로 인한 피해
+/etc/hosts.allow 및 /etc/hosts.deny는 침입자에 대한 두 번째 방어선입니다. 어떤 이유로 방화벽(예: iptables)이 중지된 경우 이 두 항목은 계속해서 시스템을 보호합니다. 방화벽에 안전 장치를 제공하여 시스템 보안을 강화하는 것이 바로 이 추가 계층입니다.
+기본적으로 이러한 파일은 비어 있거나 모두 주석 처리되어 있거나 존재하지 않습니다. 따라서 모든 것이 허용되며 시스템은 완전한 보호를 위해 방화벽에 의존하게 됩니다.
+
+### 교육 목표
+Telnet 및 FTP를 사용할 때 특정 IP를 허용/제한하도록 설정해야 합니다. 192.168.11.142 IP에 대해 telnet 및 ftp 사용을 금지하려면 TCP Wrappers를 사용하십시오.
+
+### 시스템 정보
+실습 시스템: Linux(CentOS)
+시스템 계정: root/root123
+[참조]
+1) /etc/hosts.deny 파일 수정
+2) 특정 IP에 대한 금
+```
+in.telnetd:192.168.11.142
+in.ftpd:192.168.11.142
+```
+
+### 문제 해결
+1. /etc/hosts.deny 파일 열기
+```
+[root@localhost Downloads]# vi /etc/hosts.deny
+```
+
+2. 특정 IP(예: 192.168.11.142)를 사용하여 FTP 및 telnet 서비스 차단 사용
+```
+in.telnetd:192.168.11.142
+in.ftpd:192.168.11.142
+```
+
+3. xinetd 서비스 재시작
+```
+[root#localhost Downloads]# service xinetd restart
+Stopping xinetd:                              [FAILED]
+Starting xinetd:                              [ OK   ]
+```
+
+4. 정답 확인
+```
+[root@localhost Downloads]# python v-sys-04-l-evaluate.py
+1. ‘/etc/hosts.deny’ file setting OK
+2. ‘/tcp_wrappers’ setting OK
+You solve the problem. Congratulations!!!
+```
