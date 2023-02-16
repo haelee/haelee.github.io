@@ -6,7 +6,7 @@ In this lab, we will study why the current directory (`.`) in PATH should be rem
 
 1. Make PATH starts with the current directory (`.`).
 
-2. Let's make a *fake* `ls` file in the current directory. It will run `ls` then print out *Hi!* message. Make it executable.
+2. Let's make a *fake* `ls` file. It runs `ls` then prints out a message. Make it executable.
 ```
 echo -e "ls --color=auto\necho Hi!" > ls
 chmod +x ls
