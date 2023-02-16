@@ -1,5 +1,5 @@
-# Checking the UID of a User
-The objective of this lab is to find the UID of a user using the `id` command. In Unix-like systems, the privileges of a user is determined based on the UID stored in the `/etc/passwd` file.
+# UID
+The objective of this lab was to find the UID of a user using the `id` command. In Unix-like systems, the privileges of a user is determined based on the UID stored in the `/etc/passwd` file.
 
 ## Extra Lab #1: Users with the Same UID
 Then, what if there're two or more users who have the same UID in `/etc/passwd`? Let’s check this!
@@ -36,7 +36,7 @@ $ exit
 ```
 
 6. Change the UID (and GID optionally) of `cju2023` to that of `ntu2023`. Save the file then quit the editor.
-> WARNING! Be careful while editing `/etc/passwd`. A typo may make the system out of control. If so, simply return your virtual machine (VM) and connect to a new VM. The VM you used would go back to the inital state.
+> WARNING! Be careful while editing `/etc/passwd`. A typo may make the system out of control. If so, simply press the **Stop Problem** button then pressing the **Connect Problem** button. By doing this, **CyberAegis** would retrieve the VM you used and assign a new VM to you. The VM you used would be initialized by **CyberAegis**.
 ```
 ntu2023:x:515:515::/home/ntu2023:/bin/bash
 cju2023:x:515:515::/home/ntu2023:/bin/bash
@@ -51,7 +51,7 @@ $ cat ~ntu2023/ntu
 Hello
 ```
 
-This lab confirms that the privileges of a user is *solely* determined based on the UID stored in `/etc/passwd`. So, system administrators should check if users with the same UID exist in `/etc/passwd`.
+This lab confirms that the privileges of a user is *solely* determined based on the UID stored in `/etc/passwd`. So, system administrators need to check if users with the same UID exist in `/etc/passwd`.
 
 ## Extra Lab #2: Non-Root User with UID 0
 Then, what if there's a non-root user whose UID is 0 (zero)? Let’s check this!
@@ -83,7 +83,7 @@ ntu2023:x:0:0:/home/ntu2023:/bin/bash
 This lab also confirms that the privileges of a user is solely determined based on the UID in `/etc/passwd`. So, system administrators should check if a non-root user whose UID is 0 exists in `/etc/passwd`.
 
 ## Extra Lab #3: Password-less User Account with UID 0
-In this lab, we would add a *password-less* user account whose UID is 0.
+In this lab, we will add a *password-less* user account whose UID is 0.
 
 1. Type as follows. The command creates password-less user account `dudu2023` whose UID is 0.
 ```
