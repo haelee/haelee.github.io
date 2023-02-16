@@ -4,14 +4,14 @@ The objective of this lab is was configure UMASK and PATH for security.
 ## Extra Lab #1: The Current Directory in PATH
 In this lab, we will study why the current directory (`.`) in PATH should be removed for security.
 
-1. Make PATH starts with the current directory (`.`).
+1. Make PATH starts with the current directory (`.`) temporarily.
 ```
-PATH=.:$PATH:$HOME/bin:/export/home/bin
+export PATH=.:$PATH
 ```
 
 2. Let's make a *fake* `ls` file. It runs `ls` then prints out a message. Make it executable.
 ```
-echo -e "ls --color=auto\necho Hi!" > ls
+echo -e "/usr/bin/ls --color=auto\necho Hi!" > ls
 chmod +x ls
 ```
 
