@@ -11,28 +11,37 @@
 시스템의 UMASK 및 $PATH 값을 설정합니다.
 UMASK가 필요한 이유는 모두가 자신이 만든 파일을 제한하기보다는 실행할 수 있기를 원하지만 매번 파일 권한을 변경해야 하기 때문에 상황에 맞게 기본 설정을 지정하려는 데서 발생합니다. 즉, 파일이나 디렉토리를 설정할 때마다 권한 값을 지정하는 번거로움 때문에 기본적으로 권한 값을 설정하기 위해 UMASK 명령어가 존재한다.
 경로는 운영 체제가 명령줄이나 터미널 창에서 필요한 실행 파일을 찾기 위해 사용하는 시스템 변수이기 때문에 매우 중요한 경로입니다.
-다. 설정 방법
+
+### 설정 방법
 기본 시스템 전체 $PATH 값은 /etc/profile 파일에 지정되며 각 사용자는 일반적으로 사용자의 $HOME/.profile 파일에 $PATH 값을 가집니다. .profile 파일의 $PATH 값은 시스템 전체 $PATH 값을 대체하거나 추가 디렉토리를 추가합니다.
 라. 잘못된 보안 설정으로 인한 피해
 Linux 권한을 사용하면 파일 또는 디렉토리 소유자가 각 파일에 대한 액세스 권한을 제한할 수 있습니다. 이를 통해 서로 다른 클라이언트에 다양한 수준의 액세스를 제공하는 제어 체계가 가능합니다. UMASK 값이 올바르지 않으면 권한이 잘못된 파일이 생성될 수 있으며, 파일 및 디렉터리 생성 시 과도한 권한이 부여될 수 있습니다.
-$PATH 환경 변수는 중요한 보안 제어입니다. 명령을 찾기 위해 검색할 디렉토리를 지정합니다. $PATH 환경 변수에 대한 무단 변경으로 인해 시스템의 사용자가 다른 사용자(루트 사용자 포함)를 "스푸핑"할 수 있습니다. 스푸핑 프로그램(트로이 목마 프로그램이라고도 함)은 시스템 명령을 대체한 다음 사용자 암호와 같은 해당 명령에 대한 정보를 캡처합니다.
-마. 교육 목표
+PATH 환경 변수는 중요한 보안 제어입니다. 명령을 찾기 위해 검색할 디렉토리를 지정합니다. $PATH 환경 변수에 대한 무단 변경으로 인해 시스템의 사용자가 다른 사용자(루트 사용자 포함)를 "스푸핑"할 수 있습니다. 스푸핑 프로그램(트로이 목마 프로그램이라고도 함)은 시스템 명령을 대체한 다음 사용자 암호와 같은 해당 명령에 대한 정보를 캡처합니다.
+
+### 교육 목표
 권한을 결정하는 값인 UMASK는 시스템의 폴더나 파일에 부여됩니다. 루트 계정의 UMASK 및 $PATH 설정을 변경하십시오. UMASK 기본 시스템 설정을 000 미만의 027로 변경하고 $PATH 구성 폴더에서 ./ 폴더를 제거합니다.
-바. 시스템 정보 
-실습 시스템: Linux(Cent OS)
-시스템 계정: root/root123
+
+### 시스템 정보 
+실습 운영체제 : 리눅스(CentOS)
+실습 계정: `root` / `root123`
 [참조]
 1) /etc/profile 파일 수정(022~027 수정)
 2) ~/.bash_profile 파일 수정
-사. 문제 해결
-1) /etc/profile의 umask 값을 변경합니다.
-[root@localhost Downloads]# vi /etc/profile
+
+### 문제 해결
+1. /etc/profile의 umask 값을 변경합니다.
+```
+[root@localhost ~]# vi /etc/profile
+```
 
 # 라인 64 UMASK 022 ~ 027을 편집하고 파일을 저장합니다.
   
-2) ~/.bash_profile 파일 수정
-[root@localhost Downloads]# vi ~/.bash_profile
+2. ~/.bash_profile 파일 수정
+```
+[root@localhost ~]# vi ~/.bash_profile
+```
 
+```
 #.bash_profile
 
 # Get the aliases and functions
@@ -45,8 +54,10 @@ fi
 PATH=$PATH:$HOME/bin:/export/home/bin:./
 
 export PATH
+```
+> 편집 후 PATH=$PATH:$HOME/bin:/export/home/bin으로 저장
 
-# 편집 후 PATH=$PATH:$HOME/bin:/export/home/bin으로 저장
+```
 #.bash_profile
 
 # Get the aliases and functions
@@ -59,12 +70,17 @@ fi
 PATH=$PATH:$HOME/bin:/export/home/bin
 
 export PATH
+```
 
-3) 구성 적용(재시작 시 PATH 삭제가 제대로 적용됨)	
-[root@localhost Downloads]# source /etc/profile
+3. 구성 적용(재시작 시 PATH 삭제가 제대로 적용됨)	
+```
+[root@localhost ~]# source /etc/profile
+```
 
-4) 답이 맞는지 확인
-[root@localhost Downloads]# python v-sys-05-l-evaluate.py
-‘umask 0027’ is correct answer
-‘PATH setting’ is correct answer
+4. 정답 확인
+```
+[root@localhost ~]# check
+'umask 0027' is correct answer
+'PATH setting' is correct answer
 correct!
+```

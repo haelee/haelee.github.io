@@ -9,7 +9,7 @@ In this lab, we will study why the current directory (`.`) in PATH should be rem
 # export PATH=.:$PATH
 ```
 
-2. Let's make a *fake* `ls` file. It runs `/usr/bin/ls`, which we use all the time, then prints out a message. Make it executable.
+2. Let's make a *fake* `ls` file. It executes `/usr/bin/ls`, which we use all the time, then prints out a message. Make it executable.
 ```
 # echo -e "/usr/bin/ls --color=auto\necho Hi!" > ls
 # chmod +x ls
@@ -20,4 +20,4 @@ In this lab, we will study why the current directory (`.`) in PATH should be rem
 # ls
 ```
 
-If the fake `ls` was made by an attacker, its execution may result in a serious problem. So, system administrators need to check if `.` is included in `PATH`.
+Let's suppose that the fake `ls` was made by an attacker. Then, its execution may result in a serious problem. Of course, the attack would make it do malicious behavior, rather than producing a message. So, system administrators need to check if `.` is included in `PATH`.
