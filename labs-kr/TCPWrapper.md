@@ -23,9 +23,10 @@ Linux 호스트 파일을 사용하여 IP 액세스 제어 정책을 설정합�
 ### 교육 목표
 Telnet 및 FTP를 사용할 때 특정 IP를 허용/제한하도록 설정해야 합니다. 192.168.11.142 IP에 대해 telnet 및 ftp 사용을 금지하려면 TCP Wrappers를 사용하십시오.
 
-### 시스템 정보
-실습 시스템: Linux(CentOS)
-시스템 계정: root/root123
+### 실습 시스템 정보
+OS : 리눅스(CentOS)
+계정: `root` / `root123`
+
 [참조]
 1) /etc/hosts.deny 파일 수정
 2) 특정 IP에 대한 금
@@ -37,7 +38,7 @@ in.ftpd:192.168.11.142
 ### 문제 해결
 1. /etc/hosts.deny 파일 열기
 ```
-[root@localhost Downloads]# vi /etc/hosts.deny
+[root@localhost ~]# vi /etc/hosts.deny
 ```
 
 2. 특정 IP(예: 192.168.11.142)를 사용하여 FTP 및 telnet 서비스 차단 사용
@@ -48,15 +49,15 @@ in.ftpd:192.168.11.142
 
 3. xinetd 서비스 재시작
 ```
-[root#localhost Downloads]# service xinetd restart
+[root#localhost ~]# service xinetd restart
 Stopping xinetd:                              [FAILED]
 Starting xinetd:                              [ OK   ]
 ```
 
 4. 정답 확인
 ```
-[root@localhost Downloads]# python v-sys-04-l-evaluate.py
-1. ‘/etc/hosts.deny’ file setting OK
-2. ‘/tcp_wrappers’ setting OK
+[root@localhost ~]# check
+1. '/etc/hosts.deny' file setting OK
+2. '/tcp_wrappers' setting OK
 You solve the problem. Congratulations!!!
 ```
