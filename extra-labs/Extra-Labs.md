@@ -1,4 +1,4 @@
-# Extra Hands-on Labs for University Classes
+# CyberAegis Extra Hands-on Labs for University Classes
 by Hae Young Lee
 
 ## 1. [Introduction](Introduction.md)
