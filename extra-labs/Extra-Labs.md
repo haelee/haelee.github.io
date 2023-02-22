@@ -8,7 +8,7 @@ by Hae Young Lee
 ### 14. SMTP
 ### 20. SetUID and SetGID
 ### 22. Administrator
-### 43. Directory Listing
+### 43. [Directory Listing](Directory-Listing.md)
 ## 3. Attack & Defense
 ### 95. SQL Injection
 ### 96. Blind SQL Injection

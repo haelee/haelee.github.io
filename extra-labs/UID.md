@@ -1,5 +1,5 @@
 # UID
-The objective of this lab was to find the UID of a user using the `id` command. In Unix-like systems, the privileges of a user is determined based on the UID stored in the `/etc/passwd` file.
+The objective of the lab was to find the UID of a user using the `id` command. In Unix-like systems, the privileges of a user is determined based on the UID stored in the `/etc/passwd` file.
 
 ## Extra Lab #1: Users with the Same UID
 Then, what if there're two or more users who have the same UID in `/etc/passwd`? Let’s check this!

@@ -1,5 +1,5 @@
 # PATH
-The objective of this lab was to configure `UMASK` and `PATH` for security.
+The objective of the lab was to configure `UMASK` and `PATH` for security.
 
 ## Extra Lab #1: The Current Directory in `PATH`
 In this lab, we will study why the current directory (`.`) in `PATH` should be removed for security.
