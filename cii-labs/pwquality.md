@@ -23,8 +23,10 @@ $ hydra -l aaa -P /usr/share/wordlists/rockyou.txt.gz ssh://192.168.202.xxx
 $ vi /usr/share/wordlists/rockyou.txt.gz
 ```
 
+>> (참고) 우분투 기본 패스워드 정책 확인 : `vi /etc/pam.d/common-passwd`
+
 ### 복구
-1. 생성한 계정 삭제
+1. [우분투] (필요시) 생성한 계정 삭제
 ```
 cju@wooam:~$ sudo deluser --remove-all-files aaa
 ```

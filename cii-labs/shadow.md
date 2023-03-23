@@ -10,7 +10,7 @@ cju@wooam:~$ sudo adduser aaa
 
 2. [우분투] 누구나 `/etc/shadow` 파일을 볼 수 있도록 변경
 ```
-cju@wooam:~$ sudo chmod 444 /etc/passwd
+cju@wooam:~$ sudo chmod 444 /etc/shadow
 ```
 
 3. [우분투] 원격 접속을 위해 OpenSSH 서버 설치
@@ -65,15 +65,17 @@ $ john --format=crypt ubuntu
 1111             (aaa)     
 ```
 
-### 복구
-1. [우분투] 생성한 계정 삭제
-```
-cju@wooam:~$ sudo deluser --remove-all-files aaa
-```
+> (참고) 크래킹에 성공한 해시 값과 패스워드는 `.john/john.pot`에 저장됨
 
-2. [우분투] 다른 사용자가 `/etc/shadow` 파일 내용을 볼 수 없도록 권한 변경
+### 복구
+1. [우분투] 다른 사용자가 `/etc/shadow` 파일 내용을 볼 수 없도록 권한 변경
 ```
 cju@wooam:~$ sudo chmod 400 /etc/shadow
+```
+
+2. [우분투] (필요시) 생성한 계정 삭제
+```
+cju@wooam:~$ sudo deluser --remove-all-files aaa
 ```
 
 3. [우분투] (필요시) OpenSSH 서버 제거
