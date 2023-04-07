@@ -3,15 +3,23 @@
 왜 `root` 외의 일반 사용자가 `/etc/passwd` 파일을 수정할 수 없도록 설정(접근 권한이 `644` 이하)해야 하는지 알아봅시다.
 
 ### 실습 1 : UID 변경으로 루트 되기
-1. `sudo` 명령을 사용할 수 없는 일반 사용자 `aaa` 생성
+
+먼저 시스템을 취약하게 만듭니다.
+
+1. 누구나 `/etc/passwd` 파일을 수정할 수 있도록 변경
+```
+cju@wooam:~$ sudo chmod o+w /etc/passwd
+```
+
+그리고 공격자가 사용할 계정을 추가합니다.
+
+2. `sudo` 명령을 사용할 수 없는 일반 사용자 `aaa` 생성
 ```
 cju@wooam:~$ sudo adduser aaa
 ```
 
-2. 누구나 `/etc/passwd` 파일을 수정할 수 있도록 변경
-```
-cju@wooam:~$ sudo chmod o+w /etc/passwd
-```
+
+
 
 3. 사용자 `aaa`로 전환
 ```
