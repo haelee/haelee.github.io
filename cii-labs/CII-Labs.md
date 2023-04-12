@@ -13,7 +13,7 @@
 #### [U-07 : 2.3 `/etc/passwd` 파일 소유자 및 권한 설정](passwd.md)
 #### [U-08 : 2.4 `/etc/shadow` 파일 소유자 및 권한 설정](shadow.md)
 #### [U-09 : 2.5 `/etc/hosts` 파일 소유자 및 권한 설정]
-#### [U-10 : 2.6 `/etc/(x)inetd.conf` 파일 소유자 및 권한 설정]
+#### [U-10 : 2.6 `/etc/(x)inetd.conf` 파일 소유자 및 권한 설정](xinetd.md)
 #### [U-11 : 2.7 `/etc/syslog.conf` 파일 소유자 및 권한 설정]
 #### [U-12 : 2.8 `/etc/services` 파일 소유자 및 권한 설정]
 #### [U-13 : 2.9 SUID, SGID, 설정 파일점검]
