@@ -17,6 +17,7 @@ cju@wooam:~$ ls -l /etc/xinet.conf
 ```
 
 3. `xinetd.conf` 파일의 내용도 살펴봅시다. `/etc/xinetd.d` 디렉터리를 포함(`includedir`)하는 것을 확인할 수 있습니다.
+
 ```
 cju@wooam:~$ cat /etc/xinetd.conf
 # Simple configuration file for xinetd
